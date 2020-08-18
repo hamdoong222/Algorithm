@@ -1,0 +1,79 @@
+띄어쓰기 없는 문자메세지를 입력받습니다. (최대 50글자)
+다이어트에 도움이 안 되는 단어가 있으면 모두 3개의 #으로(###) 모자이크 처리하려고 합니다.
+모자이크 처리 할 5개의 위험 단어들은 다음과 같습니다.
+
+  chicken, bread, samhap, jockbal, pizza
+
+성공적인 다이어트를 위해, 문자메세지 필터기능을 완성시켜주세요.
+대소문자 구분 없이 위험 단어가 있으면 모자이크 처리 해 주세요.
+
+
+#include <iostream>
+#include <math.h>
+#include <string.h>;
+
+using namespace std;
+
+char vect[51];
+char result[51];
+
+char foods[5][10] =
+{
+	"chicken",
+	"pizza",
+	"jockbal",
+	"bread",
+	"samhap"
+};
+
+int match(int vectIndex,int foodIndex) { //인수는 n번째 word
+	for (int i = 0; i < strlen(foods[foodIndex]); i++) {
+		//만약 원래 문자열이 대문자인 경우
+		if (vect[vectIndex + i] >= 'A' && vect[vectIndex + i] <= 'Z'){
+			if (foods[foodIndex][i] - 32 != vect[vectIndex + i]) return 0;
+			if (foods[foodIndex][i] - 32 == vect[vectIndex + i]) {
+				if (i == strlen(foods[foodIndex]) - 1) return 1;
+				continue;
+			}
+		}
+		else { //만약 원래 문자열이 소문자인 경우
+			if (foods[foodIndex][i] != vect[vectIndex + i]) return 0;
+			if (foods[foodIndex][i] == vect[vectIndex + i]) {
+				if (i == strlen(foods[foodIndex]) - 1) return 1;
+				continue;
+			}
+		}
+	}
+}
+
+int main() {
+
+	cin >> vect;
+	int resultIndex = 0;
+
+	int i = 0;
+	while (i != strlen(vect)) {
+		for (int y = 0; y < 5; y++) {
+			if (foods[y][0] == vect[i] || foods[y][0] - 32 == vect[i]) {
+				//match함수 호출, 
+				if (match(i, y) == 1) {
+					i += strlen(foods[y]);
+
+					for (int t = 0; t < 3; t++) {
+						result[resultIndex++] = '#';
+					}
+				}
+			}
+			else if (y == 4) { //스트링이 아예매치되지 않았을 경우
+				result[resultIndex++] = vect[i++];
+				break;
+			}
+			else continue;
+
+		}
+	}
+
+	cout << result;
+
+	return 0;
+}

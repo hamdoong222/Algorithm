@@ -1,0 +1,60 @@
+#include <iostream>
+
+using namespace std;
+
+int vect[10][10] = {
+	0,1,0,0,0,0,0,0,0,0,
+	0,0,1,1,1,1,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,1,0,0,0,
+	0,0,0,0,0,0,0,1,0,0,
+	0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,1,0,
+	0,0,0,0,0,0,0,0,0,1,
+	0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,
+};
+struct Node {
+	char item;
+	int index;
+};
+
+Node queue[10];
+int head;
+int tail;
+
+
+
+int main() {
+
+	char start;
+
+	cin >> start;
+
+	for (int i = 0; i < 10; i++) {
+		if (char('A' + i) == start) {
+			queue[tail].item = char('A' + i);
+			queue[tail].index = i;
+			tail++;
+		}
+	}
+
+	while (head != tail) {
+		for (int i = 0; i < 10; i++) {
+			if (vect[head][i] != 0) {
+				queue[tail].item = (char)('A' + i);
+				queue[tail].index = i;
+				tail++;
+			}
+		}
+		head++;
+	}
+
+	int i = 0;
+	while (queue[i].item != NULL) {
+		cout << queue[i].item << ' ';
+		i++;
+	}
+
+	return 0;
+}

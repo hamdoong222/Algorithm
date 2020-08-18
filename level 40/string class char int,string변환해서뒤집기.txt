@@ -1,0 +1,40 @@
+#include <iostream>
+#include <string>
+#include <ctime>
+#include <algorithm>
+
+using namespace std;
+
+char map[4][7] = {
+	"KKKKF",
+	"FOURD",
+	"BBQ",
+	"MCMC"
+};
+
+int main() {
+
+	int a, b, c;
+	string start, end;
+	int len;
+	int result;
+
+	cin >> a >> b;
+	c = a + b;
+
+	start = to_string(c);
+	len = start.length();
+
+	for (int i = len - 1 ; i >= 0; i--)
+	{
+		end += start[i];
+	}
+
+	result = stoi(end);
+
+	result -= 1234;
+	
+	cout << result;
+
+	return 0;
+}

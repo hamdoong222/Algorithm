@@ -1,0 +1,74 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+string str;
+int start;
+int finish;
+int len;
+int totalLen;
+string result[20]; //단어를 담을 배열
+
+int minFind(string str) {
+
+	for (int i = start; i < totalLen; i++) {
+		if (str[i] == '_') continue;
+		else return i;
+	}
+	//만약 글자가 안나오면 -1리턴
+	return -1; 
+}
+
+int main() {
+	
+	freopen("Text.txt", "r", stdin);
+
+	int n = 0; //단어의 총 개수
+	cin >> str;
+	totalLen = str.length();
+
+	//언더바 여러개를 기준으로 단어 파싱하기
+	//1.처음에 언더바가 나올수도 있음.
+	//2. 언더바이후 처음 글자가 나오는 곳을 찾아야 함
+
+	//첫 스타트 찾기
+	//단어가 없으면 그냥 종료
+	if (minFind(str) == -1) return 0;
+
+	if (str[0] != '_') start = 0;
+	else start = minFind(str);
+
+	finish = str.find('_', start);
+	finish--;
+	len = finish - start + 1;
+
+	string temp = str.substr(start, len);
+	result[0] = temp;
+	start = finish + 1;
+	n++;
+
+	while (start < totalLen) {
+
+		start = minFind(str);
+		
+		//시작, 끝을 못찾는 경우 모두 고려해 주어야 한다
+		if (start == -1)break;
+		finish = str.find('_', start);
+		//끝을 못찾으면 문장이 단어로 끝나는것
+		if (finish == -1) finish = totalLen - 1;
+		else finish--;
+
+		len = finish - start + 1;
+		temp = str.substr(start, len);
+		result[n++] = temp;
+		start = finish + 1;
+	}
+
+	for (int i = 1; i <= n; i++) {
+		cout << i << '#' << result[i-1] << endl;
+	}
+
+
+	return 0;
+}

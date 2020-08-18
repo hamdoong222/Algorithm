@@ -1,0 +1,25 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+struct Node {
+	int x;
+	char ch;
+};
+
+//다중조건 연산자 재정의
+bool operator<(Node t1, Node t2) {
+	if (t1.x < t2.x) return true;
+	if (t1.x > t2.x) return false;
+
+	return t1.ch > t2.ch;
+}
+
+int main() {
+
+	Node dd[4] = { {3,'A'}, {3,'Z'}, {3,'Z'}, {4,'F'} };
+	sort(&dd[0], &dd[4]);
+
+}

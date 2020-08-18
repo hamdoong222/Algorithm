@@ -1,0 +1,24 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+
+	string a = "74115ABT[16162]KSFSFKK";
+
+	int n1 = a.find("[");
+	//시간이 느려지므로 0부터 찾지 말것
+	int n2 = a.find("]", n1);
+	n1++;n2--; //이 작업을 해주면 꺽쇠가 안쪽을가리킴
+	int len = n2 - n1 + 1; //길이는 +1해줘야함
+	string result = a.substr(n1,len);
+
+	int re = stoi(result);
+	re += 100;
+
+	cout << re;
+
+
+	return 0;
+}

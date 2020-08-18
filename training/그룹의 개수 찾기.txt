@@ -1,0 +1,72 @@
+union-find로 먼저 위와 같이 그룹 지어 주세요.
+이제 그룹으로 합쳐질 한 쌍의 문자들을 n개 입력 받아주세요.
+최종적으로 몇 개의 그룹이 남아있는지 출력 하세요.
+
+ex)
+[입력]               [출력]                        [예제설명]
+3                                                         ▪️ G와 I가 속한 그룹을 합치면 4개  ━> 3개
+G I         ⇒      3개                            ▪️ D와 E는 원래 같은 그룹
+D E                                                      ▪️ H와 J는 같은 그룹
+H J                                                       => 총 3개의 그룹이 남음.
+
+
+[힌트]
+입력받은 알파벳들의 종류를 저장 해 둡니다.
+모든 그룹을 만든 후에,
+각 알파벳별로 최종 Boss가 몇 명이 나오는지 세어보면
+그룹의 수가 됩니다.
+
+
+#include <iostream>
+
+using namespace std;
+
+int vect[200];
+int cnt;
+
+char FindBoss(char c) {
+	if (vect[c] == 0) return c;
+
+	char ret = FindBoss(vect[c]);
+	vect[c] = ret;
+
+	return ret;
+}
+void Group(char t1, char t2) {
+	char a = FindBoss(t1);
+	char b = FindBoss(t2);
+
+	if (a == b) return;
+	
+	vect[a] = b;
+}
+
+int main() {
+	int n;
+	cin >> n;
+	vect['B'] = 'A';
+	vect['C'] = 'A';
+	
+	vect['E'] = 'D';
+	vect['F'] = 'D';
+
+	vect['H'] = 'G';
+
+	vect['J'] = 'I';
+
+	for (int i = 0; i < n; i++) {
+		char c1, c2;
+		cin >> c1 >> c2;
+		
+		Group(c1, c2);
+	}
+
+	
+	for (int i = 'A'; i <= 'J'; i++) { //문자열에서 보스가 안적혀있으면 자기 자신이 보스임
+		if (vect[i] == 0) {
+			cnt++;
+		}
+	}
+	cout << cnt <<"개";
+	return 0;
+}

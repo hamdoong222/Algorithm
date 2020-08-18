@@ -1,0 +1,35 @@
+#include <iostream>
+#include <unordered_map>
+
+using namespace std;
+
+//한 문자열을 입력받고, 그 문자열이 몇개가 있는지
+//O(1)속도. for문 안됨
+
+string str = "ABABCDEABCDABCD";
+int len;
+unordered_map<string, int> m;
+
+void init() {
+    for (int i = len; i >= 1; i--) {
+        for (int j = 0; j <= len - i; j++) {
+            string item = str.substr(j, i);
+            m[item]++;
+        }
+    }
+}
+
+int main() {
+
+    string target;
+    
+    len = str.length();
+    init();
+
+    cin >> target;
+
+    if (m.count(target) > 0) cout << "Found: " << m[target];
+    else cout << "Not found";
+
+    return 0;
+}

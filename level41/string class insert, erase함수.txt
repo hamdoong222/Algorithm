@@ -1,0 +1,26 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+
+	//KFC를 찾아서 MINCODING으로 바꾸기
+	string str = "ABCKFCBBQWORRLDKFC";
+
+	str.insert(3, "SDAD");
+	str.erase(4, 2);
+
+	int start = 0;
+	while (1) {
+		start = str.find("KFC", start);
+		if (start == -1) break;
+		str.erase(start, 3);
+		str.insert(start, "MINCO");
+		start += 5;
+	}
+
+	cout << str;
+
+	return 0;
+}

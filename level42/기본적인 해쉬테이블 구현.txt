@@ -1,0 +1,45 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int DAT[20];
+int input[7] = { 5, 4, 5, 6, -1, -5, 4 };
+
+
+int hashs(int n) {
+	return n + 5;
+}
+
+void init() {
+	for (int i = 0; i < 7; i++) {
+		int m = hashs(input[i]);
+		DAT[m]++;
+	}
+}
+
+int find(int n) {
+
+	int i = hashs(n);
+
+	if (DAT[i] > 0)
+		return 1;
+	else return 0;
+
+}
+
+int main() {
+
+
+
+	//input을 DAT에 넣기
+	init();
+
+	//find의 성능이 엄청나게 빠름
+	cout << find(3);
+	cout << find(5);
+	cout << find(-2);
+	cout << find(-1);
+
+	return 0;
+}

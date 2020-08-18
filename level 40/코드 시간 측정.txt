@@ -1,0 +1,16 @@
+#include <iostream>
+#include <string>
+#include <ctime>
+
+using namespace std;
+
+int main() {
+
+	time_t start = clock();
+
+	//코드
+
+	cout << clock() - start << "ms";
+
+	return 0;
+}

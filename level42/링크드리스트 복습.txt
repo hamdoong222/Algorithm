@@ -1,0 +1,41 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+//링크드 리스트 기초
+
+struct Node {
+	int i;
+	Node* next;
+};
+
+Node* head;
+Node* last;
+
+void addNode(int num) {
+
+	if (head == NULL) {
+		head = new Node();
+		head->i = num;
+		last = head;
+	}
+	else {
+		last->next = new Node();
+		last = last->next;
+		last->i = num;
+	}
+
+}
+
+int main() {
+
+	addNode(1);
+	addNode(5);
+	addNode(2);
+	addNode(2);
+	addNode(3);
+	addNode(4);
+
+	return 0;
+}

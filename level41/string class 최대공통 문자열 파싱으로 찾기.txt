@@ -1,0 +1,43 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+
+	string str1, str2;
+	string result;
+	int maxx=0;
+
+	freopen("Text.txt", "r", stdin);
+
+	cin >> str1 >> str2;
+
+	int n1, n2;
+
+	if (str1.length() < str2.length()) {
+		string temp;
+		temp = str1;
+		str1 = str2;
+		str2 = temp;
+	}
+
+	n1 = str1.length();
+	n2 = str2.length();
+
+	string search;
+	int flag = 0;
+	for (int i = n2; i >= 0; i--) {
+		for (int j = 0; j <= n2 - i; j++) {
+			search = str2.substr(j, i);
+			if (str1.find(search) == -1) continue;
+			else {
+				flag = 1;
+				cout << search;
+			}
+		}
+		if (flag) break;
+	}
+
+	return 0;
+}

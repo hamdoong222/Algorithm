@@ -1,0 +1,94 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iostream>
+
+using namespace std;
+
+vector<string> user_id = { "frodo", "fradi", "crodo", "abc123", "frodoc" };
+vector<string> banned_id = { "*rodo", "*rodo", "******" };
+
+int used[50], answer=0, N=0, U=0;
+//중복저장을 확인할 배열
+string list[500];
+int listCnt;
+
+bool match(string compare, string target) {//banned_id랑 일치하는지 검사해주는 함수
+
+    int len = target.length();
+    int len2 = compare.length();
+    
+    if (len != len2) return false; //길이가 같은가?
+
+    for (int i = 0; i < len; i++) {
+        if (target[i] == '*') continue;
+        else {
+            if (target[i] == compare[i]) continue;
+            else return false;
+        }
+    }
+    return true;
+
+}
+
+void dfs(int level, vector<string> user_id, vector<string>banned_id) { //level은 현재 탐색하는 banned_id의 인덱스, pre는 이전에 선택한 user_id의 인덱스
+
+    if (level == N) {
+
+        string chk;
+        for (int i = 0; i < U; i++) {
+            if (used[i] == 1) {
+                chk += (char)i;
+            }
+        }
+
+        int len = chk.length();
+        sort(chk.begin(), chk.end());
+        int flag = 0;
+        
+        for (int i = 0; i <= listCnt; i++) {
+            if (list[i] == chk) {
+                flag = 1;
+                break;
+            }
+        }
+
+        if (!flag) {
+            list[listCnt++] = chk;
+            answer++;
+        }
+
+        return;
+    }
+
+    for (int i = 0; i < U; i++) {
+        if (match(user_id[i], banned_id[level])) {
+            if (used[i] == 0) {
+                used[i] = 1;
+                dfs(level + 1, user_id, banned_id);
+                used[i] = 0;
+            }
+        }
+    }       
+}
+
+int solution(vector<string> user_id, vector<string> banned_id) {
+
+    N = banned_id.size(); //탐색할거 몇개?
+    U = user_id.size(); //유저아이디 몇개?
+
+
+    dfs(0,user_id, banned_id);
+
+    return answer;
+}
+
+int main() {
+
+
+    int answer = solution(user_id, banned_id);
+
+    cout << answer;
+
+    return 0;
+}

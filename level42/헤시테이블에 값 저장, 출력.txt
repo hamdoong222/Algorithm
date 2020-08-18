@@ -1,0 +1,55 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+struct Node {
+	int x;
+	Node* next;
+};
+
+Node buf[100000];
+Node* head[5];
+int bufCnt;
+
+int getHashCode(int key) {
+	return key % 5;
+}
+
+Node* myAlloc(int x, Node* next) {
+	buf[bufCnt] = { x, next };
+	return &buf[bufCnt++];
+}
+
+void addNode(int from, int value) {
+
+	head[from] = myAlloc(value, head[from]);
+}
+
+int find(int value) {
+	
+	int from = getHashCode(value);
+	
+
+	for (Node* p = head[from]; p != NULL; p = p->next) {
+		if (p->x == value) return 1;
+	}
+
+	return 0;
+}
+
+int main() {
+
+	int input[7] = {3,555,42,5,9999,43,54};
+
+	for (int i = 0; i < 7; i++) {
+		int real = input[i] % 5;
+		addNode(real, input[i]);
+	}
+
+	cout << find(42);
+	cout << find(555);
+	cout << find(559);
+
+	return 0;
+}

@@ -1,0 +1,51 @@
+#include <iostream>
+#define MAX 9999
+using namespace std;
+
+int map[4][4] =
+{
+	0,50,MAX,20,
+	MAX,0,5,MAX,
+	MAX,MAX,0,MAX,
+	MAX,10,25,0
+};
+
+int via[4] = { 1,0,0,0 };
+int result[4] = { 0,50,MAX ,20 };
+
+int findVia() {
+	int min = 21e8;
+	int minIndex;
+	for (int i = 0; i < 4; i++) {
+		if (via[i] == 0) { //안가본곳 중에서
+			if (result[i] < min) {
+				min = result[i];
+				minIndex = i;
+			}
+		}
+	}
+
+	return minIndex;
+}
+
+int main() {
+
+
+	for (int i = 0; i < 3; i++) { //선택할수있는 경유지 개수
+		//1.경유지 선택(안가본 곳중 가장 저렴한곳)
+		int v = findVia();
+
+		//2. 도착지 선택
+		for (int t = 0; t < 4; t++) {
+			//3. 바로가는 것 vs 경유지 거쳐서 도착하는것
+			int a = result[t];
+			int b = result[v] + map[v][t];
+			if (a > b) {
+				result[t] = b;
+			}
+		}
+		via[v] = 1;
+	}
+
+	return 0;
+}

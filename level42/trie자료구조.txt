@@ -1,0 +1,64 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+//trie 자료구조
+
+struct Node {
+	char ch;
+	int flag;
+	Node* p[26]; //대문자 영어 26자를 가리킴
+};
+
+Node* head;
+
+void init() {
+
+	head = new Node();
+	head->ch = '#';
+}
+
+void push(string str) {
+	int n = str.length();
+
+	//헤드에서부터 시작해서 저장
+	Node* now = head;
+
+	for (int i = 0; i < n;i++) {
+		if (now->p[str[i] - 'A'] == NULL) {
+			now->p[str[i] - 'A'] = new Node();
+			now->p[str[i] - 'A']->ch = str[i];
+		}
+		now = now->p[str[i] - 'A'];
+	}
+	//다 도착
+	now->flag = 1;
+
+}
+
+int isExist(string str) {
+	int n = str.length();
+	Node* now = head;
+	for (int i = 0; i < n; i++) {
+		if (now->p[str[i] - 'A'] == NULL) return 0;
+		now = now->p[str[i] - 'A'];
+	}
+
+	if (now->flag == 1) return 1;
+	return 0;
+}
+
+int main() {
+
+	init();
+
+	push("ABC");
+	push("ABSDA");
+
+	int ret = isExist("ABC");
+
+	cout << ret;
+
+	return 0;
+}

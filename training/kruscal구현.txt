@@ -1,0 +1,75 @@
+다섯명의 관계를 나타내는 그래프를 인접행렬로 입력 받으세요.
+간선(연결선)의 가중치는 비즈니스 관계가 성립 될 수 있는 비용을 말합니다.
+모든 인맥들이 연결되는데 최소 비용을 출력 해 주세요.
+
+#include <iostream>
+
+using namespace std;
+
+int vect[5][5];
+int vects[200];
+struct Node {
+	char c1, c2;
+	int x;
+};
+
+Node node[25];
+int cnt;
+
+char findBoss(char c) {
+	if (vects[c] == 0) return c;
+
+	char ret = findBoss(vects[c]);
+
+	return ret;
+}
+
+void Group(char t1, char t2) {
+	char a, b;
+	a = findBoss(t1);
+	b = findBoss(t2);
+
+	if (a == b) return;
+
+	vects[a] = b;
+}
+
+int main() {
+
+	for (int y = 0; y < 5; y++) {
+		for (int x = 0; x < 5; x++) {
+			int value;
+			cin >> value;
+			if (value > 0) {
+				vect[y][x] = value;
+				node[cnt].c1 = 'A' + y;
+				node[cnt].c2 = 'A' + x;
+				node[cnt].x = value;
+				cnt++;
+				
+			}
+		}
+	}
+
+	for (int i = 0; i < cnt-1; i++) {
+		for (int j = i + 1; j < cnt; j++) {
+			if (node[i].x > node[j].x) {
+				swap(node[i], node[j]);
+			}
+		}
+	} //비용이 저렴한 노드부터 정렬된것을 확인함
+
+	int line = 0; //사용한 간선의 갯수. 4개가 되면 종료
+	int sum = 0;//최종 비용
+
+	for (int i = 0; i < 25; i++) {
+		if (line == 4) break;
+		if (findBoss(node[i].c1) != findBoss(node[i].c2)) {
+			Group(node[i].c1, node[i].c2);
+			sum += node[i].x;
+			line++;
+		}
+	}
+	cout << sum;
+	return 0;
+}

@@ -1,0 +1,52 @@
+#include <iostream>
+#include <string>
+#include <unordered_map>
+
+using namespace std;
+
+//key값이 여러개일때 정보 출력하기
+//어떤게 key값으로 사용될지 모르므로 전부 key로 등록
+//예를들어 m["company"]에는 product, name 등록
+
+struct Node{
+	string company;
+	string product;
+	string name;
+};
+
+unordered_map <string, Node> m;
+//key값을 다 다르게 설정하기
+
+Node input[5] = {
+	{"STA", "BBQ", "BRK"},
+	{"KFC", "JING", "JANG"},
+	{"MC", "SANG", "SING"},
+	{"MOMS", "PSY", "PHY"},
+	{"ABC","CHO","SHO"}
+};
+
+void init() {
+
+	for (int i = 0; i < 5; i++) {
+		m[input[i].company] = input[i];
+		m[input[i].product] = input[i];
+		m[input[i].name] = input[i];
+	}
+
+}
+
+int main() {
+
+	string target;
+	cin >> target;
+
+	init();
+
+	if (m.count(target) > 0) {
+		if (m[target].company != target) cout << m[target].company << "\n";
+		if (m[target].product != target) cout << m[target].product << "\n";
+		if (m[target].name != target) cout << m[target].name;
+	}
+
+	return 0;
+}

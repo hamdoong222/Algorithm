@@ -1,0 +1,69 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int result;
+string input;
+int a, b; //숫자의 시작과 끝
+int len; //길이 변화 없음
+
+void domath(char ch, string number) {
+	int realnum = stoi(number);
+	if (ch == '-') result -= realnum;
+	else if (ch == '+') result += realnum;
+}
+
+int parsing(int start) { //+-기호전의 인덱스 찾아줌
+	for (int i = start; i < len; i++) {
+		if (input[i] == '-' || input[i] == '+')
+			return i - 1;
+	}
+	return len - 1;
+}
+
+int main() {
+
+	//덧셈뺄셈 해주기
+	//괄호는 없음
+	//첫번째 수는 양수 또는 음수(미리 처리)
+	//띄어쓰기없고, 숫자, +,-만 입력됨
+	//필요한것: 최종결과를 저장할 int변수
+	//입력받을 string 변수
+	//앞에 기호, 뒤에 숫자를 한덩어리로 본다
+
+	char c;
+	string item;
+
+	freopen("Text.txt", "r", stdin);
+
+	cin >> input;
+
+	len = input.length();
+
+	if (input[0] == '-') {
+		a = 1;
+		c = '-';
+		b = parsing(a);
+	}
+	else {
+		a = 0;
+		c = '+';
+		b = parsing(a);
+	}
+	item = input.substr(a, b - a + 1);
+	domath(c, item);
+	a = b + 2;
+
+	while (a < len) {
+		c = input[b + 1];
+		b = parsing(a);
+		item = input.substr(a, b - a + 1);
+		domath(c, item);
+		a = b + 2;
+	}
+
+	cout << result;
+
+	return 0;
+}

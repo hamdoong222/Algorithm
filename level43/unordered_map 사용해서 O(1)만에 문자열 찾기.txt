@@ -1,0 +1,27 @@
+#include <iostream>
+#include <unordered_map>
+#include <string>
+
+using namespace std;
+
+//hash STL을 이용하여 문자열 O(1)만에 찾기
+//엄청나게 많은 단어들을 찾을때 유용한 방법
+
+int main() {
+
+	string v = "ABSFSEGRSATTDGGGA";
+	unordered_map<string, int> m;
+	int len = v.length();
+
+	for (int i = 0; i < len-3; i++) {
+		m[v.substr(i, 3)] = 1;
+	}
+
+	string target;
+	cin >> target;
+
+	if (m.count(target) == 1) cout << "발견";
+	else cout << "미발견";
+
+	return 0;
+}

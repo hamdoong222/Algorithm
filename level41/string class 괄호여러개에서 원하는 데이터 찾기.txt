@@ -1,0 +1,49 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+
+	//유효한 값을 배열에 넣어서 출력
+	string str = "[[[[[[162][2[3[3[[2523][23642]]]5[]";
+	int result[100] = {0};
+	int n = 0;
+	int w = 0; //현재 찾는 위치
+
+	while (w<str.length()) {
+		//1. '['찾기
+		w = str.find('[',w); //서치하는 위치
+		int to; //닫는 괄호의 위치
+		
+		//2. '[' 전에 ']'를 찾을수 있는지 확인
+		//탈락조건 다 탈락시키기
+		int flag1 = str.find('[', w + 1); 
+		int flag2 = str.find(']', w + 1);
+		
+		if (flag1 < flag2 && flag1 != -1) {
+			w = flag1;
+			continue;
+		}
+		else {
+			//2. ']'가 아예 없는 경우에는 탐색할 필요없음
+			if (to == -1) break;
+			to = flag2;
+		}
+
+		//3.문자 채굴 후 알맞게 변환
+		w++;to--;
+		int len = to-w + 1;
+		if (len != 0) { //괄호안이 텅 비어있으면 안됨
+			string temp = str.substr(w, len);
+			result[n++] = stoi(temp);
+		}
+	}
+	//4. 결과 출력
+	for (int i = 0; i < n;i++) {
+		cout << result[i] << "\n";
+	}
+	
+
+	return 0;
+}

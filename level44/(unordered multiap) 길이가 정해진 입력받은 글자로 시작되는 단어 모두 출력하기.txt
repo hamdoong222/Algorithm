@@ -1,0 +1,28 @@
+#include <iostream>
+#include <string>
+#include <unordered_map>
+
+using namespace std;
+
+//3글자를 입력받고, 그것으로 시작되는 단어 다 출력
+string input[5] = { "BTSS", "BBT","BBTT","TTTR","BTSSCD" };
+string target;
+unordered_multimap<string, string> m;
+
+int main() {
+
+	cin >> target;
+	
+	//init
+	for (int i = 0; i < 5; i++) {
+		string key = input[i].substr(0, 3);
+		m.insert({ key, input[i] });
+	}
+
+	for (auto i = m.find(target); i != m.end();++i) {
+		if (i->first != target) break;
+		cout << i->second << "\n";
+	}
+
+	return 0;
+}

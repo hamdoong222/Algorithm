@@ -1,0 +1,53 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+//유효성 검사
+//함수로 따로 빼주는게 편하다.
+
+string ids[5] =
+{
+	"SSSabc",
+	"H#abt@",
+	"__ABT",
+	"A_BTS",
+	"A114942"
+};
+
+int validCheck(string str) {
+	
+	int n = str.length();
+	//길이가 8보다 길거나 _로 시작하면 안됨
+	if (n > 8)return 0;
+	if (str[0] == '_') return 0;
+
+	//갯수 세는 조건은 한번에 처리하기
+	int cnt1 = 0, cnt2 = 0;
+	int cnt3 = 0;
+	for (int i = 0; i < n;i++) {
+		if (str[i] >= '0' && str[i] <= '9') cnt1++;
+		if (str[i] >= 'a' && str[i] <= 'z') cnt2++;
+		if (str[i] >= 'A' && str[i] <= 'Z') cnt2++;
+		if (str[i] == '_') cnt3++;
+	}
+	//문자보다 숫자가 많으면 안됨
+	if (cnt1 >= cnt2) return 0;
+	//다 더했을때 n이 아니면 다른 문자가 있는것. 안됨
+	if (cnt1 + cnt2 + cnt3 != n) return 0;
+
+	return 1;
+}
+
+int main() {
+
+	for (int i = 0; i < 5; i++) {
+		int flag = validCheck(ids[i]);
+		if(flag) cout << ids[i] << " succeed" << "\n";
+		else cout << ids[i] << " fail" << "\n";
+	}
+	
+	return 0;
+}

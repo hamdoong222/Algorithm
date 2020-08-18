@@ -1,0 +1,43 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+//v[data[x--]] = data[x] : 이런식으로 표기하지 말기
+//만약 음수이면 양수로 바꿔서 하고 다시 빼기
+//Radix소트와 유사하다.
+
+int main() {
+
+	int vect[5] = { 1,6,2,2,2 };
+	int DAT[20] = { 0 };
+	int DATsum[20] = { 0 };
+	int result[20] = { 0 };
+
+	//1단계: DAT
+	for (int i = 0; i < 5; i++) {
+		DAT[vect[i]]++;
+	}
+
+	//2단계:DAT누적합배열
+	DATsum[0] = DAT[0];
+	for (int i = 1; i <= 6;i++) {//MAX값만큼 반복
+		if (DAT[i] == 0)DATsum[i] = DATsum[i - 1];
+		else {
+			DATsum[i] = DATsum[i - 1] + DAT[i];
+		}
+	}
+
+	//3단계: 최종결과 저장하기
+	for (int i = 0; i < 5;i++) {
+		int place = DATsum[vect[i]];
+		result[place] = vect[i];
+		DATsum[vect[i]]--;
+	}
+
+	for (int i = 0; i < 20;i++) {
+		if (result[i] != 0)cout << result[i]<< ' ';
+	}
+
+	return 0;
+}

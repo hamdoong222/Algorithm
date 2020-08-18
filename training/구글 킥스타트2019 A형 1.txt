@@ -1,0 +1,86 @@
+#include <iostream>
+
+using namespace std;
+
+int result[100000];
+int testNum;
+int pn, pp;
+int scores[100000];
+int minn=1000;
+int used[100000];
+int standard;
+int ee;
+
+void merge(int start, int end) {
+    if (start >= end) return;
+
+    int mid = (start + end) / 2;
+
+    merge(start, mid);
+    merge(mid + 1, end);
+
+    int now1 = start, now2 = mid + 1, t = 0;
+
+    while (1) {
+        if (now1 > mid&& now2 > end) break;
+
+        if (now1 > mid) result[t++] = scores[now2++];
+        else if (now2 > end) result[t++] = scores[now1++];
+        else if (scores[now1] >= scores[now2]) result[t++] = scores[now2++];
+        else result[t++] = scores[now1++];
+    }
+
+    for (int i = 0; i < t; i++) {
+        scores[i + start] = result[i];
+    }
+}
+
+void run(int level, int sum) {
+    if (level == pp-1) {
+        if (minn > sum) {
+            minn = sum;
+            
+        }
+        return;
+    }
+
+    for (int i = 0; i < ee; i++) {
+        if (used[i] == 0) {
+            used[i] = 1;
+            run(level + 1, sum + (standard - scores[i]));
+            used[i] = 0;
+        }
+    }
+}
+
+int main() {
+
+    cin >> testNum;
+
+    for (int z = 1; z <= testNum; z++) {
+        minn = 1000;
+        cin >> pn >> pp;
+
+        for (int i = 0; i < pn; i++) {
+            cin >> scores[i];
+        }
+
+        //최소 pp번째 선수부터 기준실력 가능
+        merge(0, pn - 1);
+
+        for (int y = (pp - 1); y < pn; y++) {
+            standard = scores[y];
+            ee = y;
+            used[y] = 1;
+            run(0, 0);
+            used[y] = 0;
+        }
+
+        cout << "Case #" << z  << ": " <<minn << endl;
+
+    }
+
+    
+
+    return 0;
+}

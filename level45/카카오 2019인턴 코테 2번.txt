@@ -1,0 +1,84 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iostream>
+using namespace std;
+
+bool compare(string s1, string s2) {
+    return s1.length() < s2.length();
+}
+vector<int> answer;
+vector<int> solution(string s) {
+
+
+
+    //숫자만 있는 문자열 파싱
+    //길이별로 정렬
+    //DAT를 이용하여 없는것 찾기
+
+    int start = 0;
+    int len = s.length();
+    int end;
+    int DAT[100000] = { 0 }; //중복확인
+    string str[550]; //파싱한 문자열 저장
+    int strCnt = 0;
+
+   
+
+    while (start <= len) { //문자열 저장하기
+
+        start = s.find('{', start);
+        if (start == -1) break;
+        for (int i = start; i < len;i++) {
+            if (s[i] != '{') {
+                start = i;
+                break;
+            }
+        }
+        //start = 숫자로 시작하는 부분
+        end = s.find('}', start); end--; 
+        //end = 숫자로 끝나는 부분
+        string temp = s.substr(start, end - start + 1);
+        str[strCnt++] = temp;
+
+        start = end;
+    }
+    
+    sort(str,str + strCnt, compare);
+
+    //새로운 숫자 파싱하기
+
+    for (int i = 0; i < strCnt; i++) {
+        int l = str[i].length();
+        start = 0;
+        while (start <= l) {
+            end = str[i].find(',', start); 
+            if (end == -1) end = l;
+            end--;
+            //start == 숫자의 처음
+            //end == 숫자의 끝
+            string item = str[i].substr(start, end - start + 1);
+            int re = stoi(item);
+
+            if (DAT[re] == 0) answer.push_back(re);
+            DAT[re]++;
+
+            start = end + 2;
+        }
+    }
+
+    return answer;
+}
+
+int main() {
+
+    string s = "{{4,2,3},{3},{2,3,4,1},{2,3}}";
+
+    solution(s);
+
+    int len = answer.size();
+    for (int i = 0; i < len; i++) {
+        cout << answer[i] << ' ';
+    }
+    return 0;
+}

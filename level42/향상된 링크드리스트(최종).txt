@@ -1,0 +1,35 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+struct Node {
+	int x;
+	Node* next;
+};
+
+Node buf[100000];
+int bufCnt; //비어있는인덱스를 가리키는 용도
+Node* head;
+
+Node* myAlloc(int x, Node* next) {
+	
+	buf[bufCnt] = { x, next };
+	return &buf[bufCnt++];
+
+}
+
+//앞에 추가하는 방식은 last가 필요없음
+void addNode(int value) {
+	head = myAlloc(value, head);
+}
+
+int main() {
+
+	addNode(1);
+	addNode(2);
+	addNode(3);
+	addNode(4);
+
+	return 0;
+}

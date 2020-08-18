@@ -1,0 +1,31 @@
+#include <iostream>
+#include <string>
+#include <ctime>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+
+	string s = "ABTBAABT";
+	string re;
+	int bucket[300] = { 0 };
+	int n = s.length();
+	int ren=0;
+
+	for (int i = 0; i < n;i++) {
+		if (bucket[s[i]] == 0) {
+			bucket[s[i]] = 1;
+			re += s[i];
+			ren += 1;
+		}
+	}
+
+	sort(&re[0], &re[ren], greater<int>());
+
+	for (int i = 0; i < ren;i++) {
+		cout << re[i];
+	}
+
+	return 0;
+}

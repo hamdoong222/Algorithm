@@ -1,0 +1,76 @@
+5개국 여행 plan을 세워주는 여행사에서 경로추천을 해주려합니다.
+아래 그래프를 인접행렬로 하드코딩 해주세요.
+
+
+시작점과 도착지점을 입력 받고,
+갈 수 있는 최소 비용과 그 경로를 DFS를 돌려 구해주세요.
+만약 갈 수 있는 길이 없다면 "impossible"을 출력 해주세요.
+
+#include <iostream>
+#include <string.h>
+
+using namespace std;
+
+char names[6] = "BGHKT";
+int vect[5][5] = 
+{
+	0,0,0,0,10,
+	0,0,6,2,3,
+	1,0,0,0,0,
+	8,0,0,0,0,
+	4,0,2,0,0,
+};
+char from, to;
+char path[6];
+char answer[6];
+int used[5];
+int minn = 100;
+
+void run(int level, int now, int sum) {
+
+	if (names[now] == to && minn > sum) { //최소비용의 경로를 발견한 경우
+		minn = sum;
+		strcpy(answer,path);
+		return;
+	}
+	if (level == 4 && names[now] != to) { //경로를 발견하지 못한 경우
+		
+		return;
+	}
+
+	for (int i = 0; i < 5; i++) {
+		if (vect[now][i] > 0 && used[i] == 0) {
+			
+			path[level + 1] = names[i];
+			used[i] = 1;
+			run(level + 1, i, sum + vect[now][i]);
+			path[level + 1] = 0;
+			used[i] = 0;
+			
+		}
+	}
+}
+
+int main() {
+
+	cin >> from >> to;
+	path[0] = from;
+
+	for (int i = 0; i < 5; i++) {
+		if (from == names[i]) {
+			used[i] = 1;
+			run(0, i, 0);
+			
+		}
+	}
+
+	if (minn < 100) {
+		cout << minn << ':' << answer;
+		return 0;
+	}
+	else {
+		cout << "impossible";
+		return 0;
+	}
+
+}

@@ -1,0 +1,62 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+string vect = "ABC      KFC  BBBBQ BHC";
+int n;
+
+//공백다음부터, 공백이 아닌 단어를 찾으면 위치를 리턴
+int minFind(int start) {
+	
+	int n = vect.length();
+	for (int i = start; i < n;i++) {
+		if (vect[i] != ' ') return i;
+	}
+	return -1;
+}
+
+
+int main() {
+
+	n = vect.length();
+	//단어의 시작
+	int a = 0; //처음에는 0번째 index부터 서치
+	//단어의 끝
+	int b;
+	int flag = 0;
+
+	//뽑아낸 단어를 저장할 백터
+	vector<string> result;
+
+	while (!flag) {
+		a = minFind(a);
+		if (a == -1)break;
+
+		b = vect.find(' ', a);
+		//띄어쓰기가 없으면 문장의 끝을 가리킨다
+		if (b == -1) {
+			b = n;
+			flag = 1;
+		}
+		b--;
+
+		string word = vect.substr(a, b - a + 1);
+		result.push_back(word);
+		a = b + 2;
+	}
+
+	int t = result.size();
+
+	//vector는 이렇게 소트한다.
+	sort(result.begin(), result.end());
+
+	for (int i = 0; i < t; i++)g
+	{
+		cout << result.front() << "\n";
+		result.erase(result.begin());
+	}
+	return 0;
+}

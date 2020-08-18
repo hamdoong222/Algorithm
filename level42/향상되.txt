@@ -1,0 +1,72 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+//링크드 리스트 기초
+
+struct Node {
+	int i;
+	Node* next;
+};
+
+Node* head;
+Node* last;
+
+//힙에 할당하는 대신 전역배열로 왕창 만들어 두기
+//그러면 운영체제의 도움이 필요 없음
+//최대한 크게 만들음
+//이런 방식을 하면 3배정도 빠르다
+//메모리풀을 사용하는 방식
+//모든 변수는 프로그램이 종료될때 자동으로 제거되므로 지워주지 않아도 된다.
+Node buf[10000000];
+int bufCnt;
+
+//버퍼에서 한칸씩 땡겨서 씀
+//또는 밑에처럼 한번만 만듦
+Node* myAlloc(int x, Node *next) {
+
+	buf[bufCnt].i = x;
+	buf[bufCnt].next = next;
+	//현재 bufCnt의 인덱스를 반환하고 1 더해줌
+	return &buf[bufCnt++];
+
+}
+void init() {
+
+	head = new Node[100000]();
+
+}
+
+void addNode(int num) {
+
+	if (head == NULL) {
+		head = myAlloc(num, NULL);
+		last = head;
+	}
+	else {
+		last->next = myAlloc(num, NULL);
+	}
+
+}
+
+int main() {
+
+	addNode(1);
+	addNode(5);
+	addNode(2);
+	addNode(2);
+	addNode(3);
+	addNode(4);
+
+	Node* p;
+
+	//만들어진 노드 지우기(원래 하던 방식)
+	//while (head != NULL) {
+	//	p = head;
+	//	head = head->next;
+	//	delete p;
+	//}
+
+	return 0;
+}

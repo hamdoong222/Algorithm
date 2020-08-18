@@ -1,0 +1,63 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+struct Node {
+	string str;
+	Node* next;
+};
+
+Node buf[100000];
+Node* head[100000];
+int bufCnt;
+
+int getHashCode(string str) {
+	int n = str.length();
+	int result=0;
+
+	for (int i = 0; i < n; i++) {
+		result += str[i];
+	}
+
+	return result;
+}
+
+Node* myAlloc(string x, Node* next) {
+	buf[bufCnt] = { x, next };
+	return &buf[bufCnt++];
+}
+
+void addNode(int from, string value) {
+
+	head[from] = myAlloc(value, head[from]);
+}
+
+int find(string value) {
+	
+	int from = getHashCode(value);
+	
+
+	for (Node* p = head[from]; p != NULL; p = p->next) {
+		if (p->str == value) return 1;
+	}
+
+	return 0;
+}
+
+int main() {
+
+	string input[5] = { "BBB", "BBB", "BBB", "BTS", "KFC" };
+
+	for (int i = 0; i < 5; i++) {
+		int re = getHashCode(input[i]);
+		addNode(re, input[i]);
+	
+	}
+
+
+	cout << find("KFC");
+	cout << find("KFT");
+
+	return 0;
+}

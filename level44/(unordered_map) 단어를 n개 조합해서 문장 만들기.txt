@@ -1,0 +1,33 @@
+#include <iostream>
+#include <string>
+#include <unordered_map>
+
+using namespace std;
+
+string str[6] = { "BB", "NOG", "OOD","OD","KF","CG" };
+string target[3] = {"KFCGOOD", "BBQJJAN", "MCNOGOOD"};
+
+int main() {
+
+	int result = 0;
+	string cmp = "";
+	unordered_map<string, int> m;
+
+	for (int i = 0; i < 6;i++) {
+		cmp = "";
+		for (int j = 0; j < 6; j++) {
+			for (int t = 0; t < 6; t++) {
+				cmp  = str[i] + str[j] + str[t];
+				m[cmp]++;
+			}
+		}
+	}
+
+	for (int i = 0; i < 3;i++) {
+		if (m.count(target[i]) > 0) result++;
+	}
+
+	cout << result << "개 발견";
+
+	return 0;
+}

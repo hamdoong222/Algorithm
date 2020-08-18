@@ -1,0 +1,51 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+//괄호안의 숫자들 계산하기
+//숫자는 모두 양수
+//괄호가 부적절한 데이터는 입력되지 않음
+//여는 괄호를 찾는 파싱 하나
+//여는 괄호가 주어졌을때 그 쌍을 찾아주는 파싱 둘 
+
+string str;
+int n;
+
+int getNums(int a, int b) {
+	string temp = str.substr(a + 1, b - a + 1);
+	return stoi(temp);
+}
+
+int main() {
+
+	freopen("Text.txt", "r", stdin);
+
+	cin >> str;
+
+	n = str.length();
+
+	int a, b;
+	int sum = 0;
+
+	for (int i = 0; i < n; i++) {
+		if (str[i] == '[') {
+			a = i;
+			b = str.find(']', a + 1);
+			sum += getNums(a, b);
+
+			i += (b - a);
+		}
+		else if (str[i] == '{') {
+			a = i;
+			b = str.find('}', a);
+			sum *= getNums(a, b);
+
+			i += (b - a);
+		}
+	}
+
+	cout << sum;
+
+	return 0;
+}

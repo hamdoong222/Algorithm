@@ -1,0 +1,80 @@
+#include <iostream>
+
+using namespace std;
+
+struct Node {
+	char ch;
+	Node* next;
+};
+Node* head = new Node[10]();
+
+void init() {
+	for (int i = 0; i < 10; i++) {
+		head[i].ch = (char)('A' + i);
+	}
+	head[0].next = new Node();
+	head->next->ch = 'B';
+	
+	Node* node1 = &head[1];
+	for (int i = 0; i < 4; i++) {
+		node1->next = new Node();
+		node1 = node1->next;
+		node1->ch = (char)('C' + i);
+	}
+
+	head[3].next = new Node();
+	head[3].next->ch = 'G';
+	head[6].next = new Node();
+	head[6].next->ch = 'I';
+
+	head[4].next = new Node();
+	head[4].next->ch = 'H';
+	head[7].next= new Node();
+	head[7].next->ch = 'J';
+}
+
+struct Queue {
+	char item;
+	int index;
+};
+
+Queue queue[10];
+
+int Qhead = 0;
+int Qtail = 0;
+
+
+int main() {
+	char command;
+	char start;
+
+	cin >> command;
+
+	init();
+
+	for (int i = 0; i < 10; i++) {
+		if (command == head[i].ch) {
+			queue[Qtail].item = head[i].ch;
+			queue[Qtail].index = i;	
+			Qtail++;
+			break;
+		}
+	}
+
+	while (Qhead != Qtail) {
+		Node *now ;
+		for (now = head[queue[Qhead].index].next; now != NULL; now = now->next) {
+			queue[Qtail].item = now->ch;
+			queue[Qtail].index = (int)(now->ch-'A');
+			Qtail++;
+		}
+		Qhead++;
+	}
+	int i = 0;
+	while (queue[i].item != '\0') {
+		cout << queue[i].item << ' ';
+		i++;
+	}
+
+	return 0;
+}
